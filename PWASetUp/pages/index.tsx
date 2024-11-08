@@ -1,6 +1,6 @@
 import React from 'react';
-import Page from '@/PWASetUp/components/page';
-import Section from '@/PWASetUp/components/section';
+import Page from '../../PWASetUp/components/page';
+import Section from '../../PWASetUp/components/section';
 
 export default function Home() {
   return (

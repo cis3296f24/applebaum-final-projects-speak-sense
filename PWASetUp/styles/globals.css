@@ -12,12 +12,6 @@ body {
   background: rgb(var(--background-rgb));
 }
 
-@layer base {
-  html {
-    -webkit-tap-highlight-color: transparent;
-  }
-}
-
 @layer components {
   .btn {
     @apply px-4 py-2 rounded-lg font-medium transition-colors;
