@@ -1,34 +1,22 @@
-import Head from 'next/head'
-import Appbar from '@/components/appbar'
-import BottomNav from '@/components/bottom-nav'
+import React, { ReactNode } from 'react';
+import AppBar from './appbar';
+import BottomNav from './bottom-nav';
 
-interface Props {
-	title?: string
-	children: React.ReactNode
+interface PageProps {
+  children: ReactNode;
+  className?: string;
 }
 
-const Page = ({ title, children }: Props) => (
-	<>
-		{title ? (
-			<Head>
-				<title>Rice Bowl | {title}</title>
-			</Head>
-		) : null}
+const Page: React.FC<PageProps> = ({ children, className = '' }) => {
+  return (
+    <div className="min-h-screen bg-background text-text">
+      <AppBar />
+      <main className={`pt-16 pb-20 px-6 ${className}`}>
+        {children}
+      </main>
+      <BottomNav />
+    </div>
+  );
+};
 
-		<Appbar />
-
-		<main
-			/**
-			 * Padding top = `appbar` height
-			 * Padding bottom = `bottom-nav` height
-			 */
-			className='mx-auto max-w-screen-md pt-20 pb-16 px-safe sm:pb-0'
-		>
-			<div className='p-6'>{children}</div>
-		</main>
-
-		<BottomNav />
-	</>
-)
-
-export default Page
+export default Page;
