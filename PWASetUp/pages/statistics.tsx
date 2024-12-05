@@ -219,7 +219,7 @@ const Statistics = () => {
   return (
     <Page>
       <Section>
-        <div className="p-8 pt-20">
+        <div>
           {/* Header Section */}
           <div className="flex justify-between items-center mb-6">
             <div>

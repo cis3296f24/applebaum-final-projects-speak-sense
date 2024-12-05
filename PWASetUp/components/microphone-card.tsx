@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import {Card, Progress, CardBody, Image, CardFooter} from '@nextui-org/react'
-import { useRouter } from 'next/router'
 //make micCard act as button for speech recognition 
 interface MicCardProps {
     isMicActive: boolean;

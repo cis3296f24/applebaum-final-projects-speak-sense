@@ -43,7 +43,7 @@ const Appbar = () => {
             <Link href="/profile" passHref>
               <div className="flex items-center justify-center h-10 w-10 rounded-full bg-gray-300 dark:bg-gray-700 overflow-hidden cursor-pointer hover:ring-2 hover:ring-indigo-500">
                 <img
-                  src="../images/Ian.png" 
+                  src="../images/Ian (1).png" 
                   alt="Profile"
                   className="h-full w-full object-cover"
                 />
