@@ -93,7 +93,7 @@ const Insights = () => {
   return (
     <Page>
       <Section>
-        <div className="p-8 pt-20">
+        <div>
           <div className="flex justify-between items-center mb-6">
             <div>
               <h1 className="text-2xl font-bold">Speech Insights</h1>
