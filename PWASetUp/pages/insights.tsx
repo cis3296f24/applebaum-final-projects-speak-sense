@@ -36,14 +36,13 @@ const Insights = () => {
         }
 
         console.log("Sending transcript:", fullTranscriptGlobal);
+        console.log("Attempting to connect to server...");
         
-        const response = await fetch('http://localhost:8080/api/chat', {
+        const response = await fetch('/api/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Accept': 'application/json',
           },
-          credentials: 'include',
           body: JSON.stringify({
             prompt: `Analyze the following speech transcript: "${fullTranscriptGlobal}". 
                     Please provide a detailed analysis in the following JSON format:
@@ -55,6 +54,9 @@ const Insights = () => {
                       "confidenceScore": number between 0-100
                     }`
           }),
+        }).catch(error => {
+          console.error("Fetch error:", error);
+          throw new Error("Server connection failed");
         });
 
         if (!response.ok) {
@@ -73,7 +75,7 @@ const Insights = () => {
         const parsedFeedback = parseAIResponse(data.message);
         setProcessedFeedback(parsedFeedback);
       } catch (error) {
-        console.error("API call error:", error);
+        console.error("Full error:", error);
         setError((error as Error).message || 'Failed to fetch insights');
       } finally {
         setLoading(false);
