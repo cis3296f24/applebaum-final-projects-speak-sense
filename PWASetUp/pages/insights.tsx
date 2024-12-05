@@ -29,45 +29,52 @@ const Insights = () => {
     const fetchResponse = async () => {
       try {
         if (!fullTranscriptGlobal) {
+          console.log("No transcript available");
           setError("No speech transcript available. Please record your speech first.");
           setLoading(false);
           return;
         }
 
-        const res = await fetch('http://localhost:8080/api/chat', {
+        console.log("Sending transcript:", fullTranscriptGlobal);
+        
+        const response = await fetch('http://localhost:8080/api/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Accept': 'application/json',
           },
+          credentials: 'include',
           body: JSON.stringify({
             prompt: `Analyze the following speech transcript: "${fullTranscriptGlobal}". 
                     Please provide a detailed analysis in the following JSON format:
                     {
-                      "strengths": ["strength1", "strength2", ...],
-                      "weaknesses": ["weakness1", "weakness2", ...],
-                      "tips": ["tip1", "tip2", ...],
+                      "strengths": ["strength1", "strength2"],
+                      "weaknesses": ["weakness1", "weakness2"],
+                      "tips": ["tip1", "tip2"],
                       "toneAnalysis": "detailed tone analysis",
                       "confidenceScore": number between 0-100
-                    }`,
+                    }`
           }),
         });
-        
-        if (res.ok) {
-          const data = await res.json();
-          setResponse(data.message);
-          
-          try {
-            const parsedFeedback = parseAIResponse(data.message);
-            setProcessedFeedback(parsedFeedback);
-          } catch (parseError) {
-            console.error('Error parsing feedback:', parseError);
-            setError("Error processing AI response");
-          }
-        } else {
-          throw new Error('Failed to fetch insights');
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
         }
+
+        const data = await response.json();
+        console.log("Server response:", data);
+        
+        if (!data.message) {
+          throw new Error('Invalid response format');
+        }
+
+        setResponse(data.message);
+        const parsedFeedback = parseAIResponse(data.message);
+        setProcessedFeedback(parsedFeedback);
       } catch (error) {
-        setError((error as Error).message);
+        console.error("API call error:", error);
+        setError((error as Error).message || 'Failed to fetch insights');
       } finally {
         setLoading(false);
       }
@@ -78,6 +85,7 @@ const Insights = () => {
 
   const parseAIResponse = (text: string): AIFeedback => {
     try {
+      console.log("Parsing response text:", text);
       const jsonResponse = JSON.parse(text);
       return {
         strengths: jsonResponse.strengths || [],
@@ -206,6 +214,13 @@ const Insights = () => {
               </Card>
             </>
           )}
+
+          {/* Debug Information */}
+          <div className="mt-6 text-sm text-gray-500">
+            <p>Debug Info:</p>
+            <p>Transcript Available: {fullTranscriptGlobal ? 'Yes' : 'No'}</p>
+            <p>Transcript Length: {fullTranscriptGlobal?.length || 0} characters</p>
+          </div>
         </div>
       </Section>
     </Page>
