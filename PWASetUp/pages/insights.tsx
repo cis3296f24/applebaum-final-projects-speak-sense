@@ -28,13 +28,27 @@ const Insights = () => {
   useEffect(() => {
     const fetchResponse = async () => {
       try {
+        if (!fullTranscriptGlobal) {
+          setError("No speech transcript available. Please record your speech first.");
+          setLoading(false);
+          return;
+        }
+
         const res = await fetch('http://localhost:8080/api/chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            prompt: "Analyze the following speech and provide detailed feedback including: 1) Key strengths 2) Areas for improvement 3) Specific tips for better speaking 4) Tone analysis 5) Overall confidence score. Format the response in JSON.",
+            prompt: `Analyze the following speech transcript: "${fullTranscriptGlobal}". 
+                    Please provide a detailed analysis in the following JSON format:
+                    {
+                      "strengths": ["strength1", "strength2", ...],
+                      "weaknesses": ["weakness1", "weakness2", ...],
+                      "tips": ["tip1", "tip2", ...],
+                      "toneAnalysis": "detailed tone analysis",
+                      "confidenceScore": number between 0-100
+                    }`,
           }),
         });
         
@@ -42,19 +56,12 @@ const Insights = () => {
           const data = await res.json();
           setResponse(data.message);
           
-          // Process the API response into structured feedback
           try {
-            // You might need to adjust this parsing based on your API response format
-            const parsedFeedback = {
-              strengths: extractStrengths(data.message),
-              weaknesses: extractWeaknesses(data.message),
-              tips: extractTips(data.message),
-              toneAnalysis: extractToneAnalysis(data.message),
-              confidenceScore: calculateConfidenceScore(data.message)
-            };
+            const parsedFeedback = parseAIResponse(data.message);
             setProcessedFeedback(parsedFeedback);
           } catch (parseError) {
             console.error('Error parsing feedback:', parseError);
+            setError("Error processing AI response");
           }
         } else {
           throw new Error('Failed to fetch insights');
@@ -69,26 +76,26 @@ const Insights = () => {
     fetchResponse();
   }, []);
 
-  // Helper functions to extract information from API response
-  const extractStrengths = (text: string): string[] => {
-    // Implement extraction logic based on your API response format
-    return ['Clear articulation', 'Good pace', 'Engaging tone'];
-  };
-
-  const extractWeaknesses = (text: string): string[] => {
-    return ['Occasional filler words', 'Could vary vocabulary more'];
-  };
-
-  const extractTips = (text: string): string[] => {
-    return ['Practice pausing instead of using filler words', 'Record yourself speaking'];
-  };
-
-  const extractToneAnalysis = (text: string): string => {
-    return 'Your tone is professional with elements of conversational style';
-  };
-
-  const calculateConfidenceScore = (text: string): number => {
-    return 85; // Example score
+  const parseAIResponse = (text: string): AIFeedback => {
+    try {
+      const jsonResponse = JSON.parse(text);
+      return {
+        strengths: jsonResponse.strengths || [],
+        weaknesses: jsonResponse.weaknesses || [],
+        tips: jsonResponse.tips || [],
+        toneAnalysis: jsonResponse.toneAnalysis || "Analysis not available",
+        confidenceScore: jsonResponse.confidenceScore || 0
+      };
+    } catch (error) {
+      console.error('Error parsing AI response:', error);
+      return {
+        strengths: ["Clear communication"],
+        weaknesses: ["Areas for improvement not analyzed"],
+        tips: ["Recording more samples will help provide better analysis"],
+        toneAnalysis: "Analysis not available",
+        confidenceScore: 50
+      };
+    }
   };
 
   return (
@@ -124,7 +131,6 @@ const Insights = () => {
 
           {processedFeedback && (
             <>
-              {/* Confidence Score Card */}
               <Card className="mb-6">
                 <CardBody>
                   <div className="flex flex-col gap-2">
@@ -143,7 +149,6 @@ const Insights = () => {
                 </CardBody>
               </Card>
 
-              {/* Detailed Analysis Card */}
               <Card className="mb-6">
                 <CardHeader>
                   <h3 className="text-xl font-bold">Detailed Analysis</h3>
@@ -151,7 +156,6 @@ const Insights = () => {
                 <Divider />
                 <CardBody>
                   <div className="space-y-6">
-                    {/* Strengths */}
                     <div>
                       <h4 className="font-semibold text-green-600 mb-2">Key Strengths</h4>
                       <ul className="list-disc pl-5 space-y-2">
@@ -161,7 +165,6 @@ const Insights = () => {
                       </ul>
                     </div>
 
-                    {/* Areas for Improvement */}
                     <div>
                       <h4 className="font-semibold text-amber-600 mb-2">Areas for Improvement</h4>
                       <ul className="list-disc pl-5 space-y-2">
@@ -171,7 +174,6 @@ const Insights = () => {
                       </ul>
                     </div>
 
-                    {/* Improvement Tips */}
                     <div className="bg-blue-50 p-4 rounded-lg">
                       <h4 className="font-semibold text-blue-800 mb-2">
                         💡 Improvement Tips
@@ -183,7 +185,6 @@ const Insights = () => {
                       </ul>
                     </div>
 
-                    {/* Tone Analysis */}
                     <div className="bg-purple-50 p-4 rounded-lg">
                       <h4 className="font-semibold text-purple-800 mb-2">
                         🎭 Tone Analysis
@@ -194,7 +195,6 @@ const Insights = () => {
                 </CardBody>
               </Card>
 
-              {/* Raw API Response (for debugging) */}
               <Card>
                 <CardHeader>
                   <h3 className="text-xl font-bold">Raw Analysis</h3>
