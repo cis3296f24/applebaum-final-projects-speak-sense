@@ -131,7 +131,9 @@ const Index = () => {
           output.textContent = fullTranscript;
         }
 
-        if (wordbank.some((word) => fullTranscript.includes(word))) {
+        const allBannedWords = [...wordbank, ...bannedWords];
+
+        if (allBannedWords.some((word) => fullTranscript.includes(word))) {
           handleBadWordDetected();
         }
       });

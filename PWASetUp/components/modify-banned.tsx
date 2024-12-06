@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import { Textarea,Card, Button, CardFooter } from '@nextui-org/react'
+import path from "path"
 
 interface ModifyBannedTextProps {
     bannedWords: string[];
@@ -8,6 +9,7 @@ interface ModifyBannedTextProps {
 
 const ModifyBannedText: React.FC<ModifyBannedTextProps> = ({bannedWords, setBannedWords}) => {
     const [localBannedWords, setLocalBannedWords] = useState<string>("");
+    
     const handleSave = () => {
         const bannedWordsArray = localBannedWords
         .split(",")
@@ -17,6 +19,7 @@ const ModifyBannedText: React.FC<ModifyBannedTextProps> = ({bannedWords, setBann
         setBannedWords(bannedWordsArray);
         setLocalBannedWords('');
     };
+        
     return(
     <Card className='p-6, mw-400px, mt-10, display:flex, flexDirection: column, alignItems: center'>
         <Textarea 
