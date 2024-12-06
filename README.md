@@ -11,46 +11,112 @@
 
 
 ## Keywords
-Section # 1<br>
-Speech-Analysis, Word Frequency Tracking, Taser, Java/Kotlin, Android app, Speech Pattern Analysis, Word Detection, Voice Activation, Profanity Detection
+Speech-Analysis, Word Frequency Tracking, Progressive Web App, Speech Pattern Analysis, Word Detection, Voice Activation, Profanity Detection
 
-## Project Abstract
+## Project Description
 
-This document proposes a novel application of a text message (SMS or Email) read-out and hands-free call interacted between an Android Smartphone and an infotainment platform (headunit) in a car environment. When a phone receives an SMS or Email, the text message is transferred from the phone to the headunit through a Bluetooth connection. On the headunit, user can control which and when the received SMS or E-mail to be read out through the in-vehicle audio system. The user may press one button on the headunit to activate the hands-free feature to call back the SMS sender.
+**SpeakSense** is a progressive web application designed to provide real-time feedback on your speech. Whether you're preparing for a presentation, practicing for an interview, or refining a speech, SpeakSense helps you stay on track by monitoring your speech patterns and providing actionable insights.
 
-## High Level Requirement
+### Key Features
+- **Banned Words Alerts**: Add words or phrases (e.g., profanity, filler words) to your "banned words" list, and get alerted if you say them while speaking.
+- **Statistics Dashboard**:
+  - Tracks how often you've practiced.
+  - Counts how many times you've said banned words.
+  - Monitors how many days you've practiced.
+- **AI Feedback**: Leverages AI to provide personalized feedback on your speech.
 
-Local data logging of detected words, including timestamps and frequency counts.
-Real-time (or regular intervals) updating of statistics, such as most-used words, filler word percentages, profanity counts, and general word variety.
-Use of predefined dictionaries for categorizing words (e.g., filler words, conjunctions, profanities).
-Option for the user to review data through a dashboard displaying summary statistics and trend insights on language use.
-Privacy and storage management, including an option to delete logs after a certain period.
+---
+
+### Technologies Used
+- **Frontend**: Next.js, React.js, TypeScript, JavaScript
+- **APIs**:
+  - Web API for speech recognition
+  - OpenAI API for AI feedback
+- **Database**: Dexie.js for local data management
+
+---
+
+### Challenges and Future Plans
+- **Challenges**:
+  - Integrating the OpenAI API was one of the most complex parts of this project. However, we successfully implemented it and look forward to enhancing its functionality.
+  
+- **Future Plans**:
+  - Enable users to save their recordings and banned words to their profiles, so they don’t have to reconfigure them each time.
+  - Shift from local storage (which currently deletes data on refresh) to persistent cloud-based storage.
+
+---
+
+SpeakSense is your personal speech improvement tool. Try it out and take your presentations, speeches, and interviews to the next level!
+
+## Instructions for Installing and Running 
+
+Here are instructions for installing on your local machine. 
+
+### Step 1: Set Up the Project 
+    Navigate to the project directory: 
+   ```bash
+    cd PWASetUp
+    npm install 
+    npm audit fix --force 
+   ```
+
+### Step 2: Set up GPT Functionality 
+    Navigate to pages folders
+    ```bash
+    cd pages
+    ```
+
+    Run the Server”
+    ```bash
+    node chat.js 
+    ```
+    This will run the server and you should see a message on the terminal that the server is running
+
+### Step 3: Install Dependencies to download for ChatGTP Sever:
+    Run the following commands to install necessary dependencies: 
+    ```bash
+        npm i express
+        npm i dotenv
+        npm i cors
+        npm i openai
+    ```
+### Step 4: Install other dependencies:
+    Change back to PWASetUp
+    
+    NextUI: 
+    ```bash
+        npm install -g nextui-cli
+        nextui add --all
+    ```
+    HeroIcons: 
+    ```bash
+        npm install @heroicons/react
+    ```
+    Charts: 
+    ```bash
+        npm i react-chartjs-2 chart.js
+    ```
+
+### Step 5: Run it!
+        ```bash
+        npm run dev
+        ```
+### Step 6: 
+now you have SpeakSense on your local computer
 
 ## Conceptual Design
 
 This is a template from Figma that is touched up. The intention is for the web app to also be accessible to mobile, but this gets the idea of what we want to display well.
 ![image](https://github.com/user-attachments/assets/c2eeaaad-d67d-44dd-9542-12750150a1d5)
 
-## Background
 
-By analyzing patterns of speech, we seek to create a tool that can study speech patterns. We'd like to help users explore how they sound in presentation settings. Does their word choice indicate they are assertive or passive? Abstract or practical? Verbose or redundant?
+## Use Cases
+```mermaid
+sequenceDiagram 
+```
+## UseCase 3:
+ Getting GPT input from a speech file
 
-We also wish to assist in getting rid of negative talking behaviors. By seeking to implement a buzzer in a mobile device, users can be alerted whenever they use a word they deem innapropriate or undesirable. This could be cursing, vague language, or filler words.
-
-## Required Resources
-
-### Software Resources:
-
-SQLite, and APIs for speech-to-text processing.
-### Hardware Resources:
-
-A laptop with audio recording capabilities. Cellular devices (both android and apple)
-### Additional Needs:
-
-Development of predefined dictionaries for word categorization (filler words, conjunctions, profanities).
-
-##UseCase 3:
- Getting GPT input from a speach file
 
 ```mermaid
 sequenceDiagram
@@ -71,35 +137,36 @@ sequenceDiagram
 
 [//]: # ( readme: collaborators -start )
 <table>
-<tr>
+  <tr>
     <td align="center">
-        <a href="https://github.com/ApplebaumIan">
-            <img src="https://avatars.githubusercontent.com/u/9451941?v=4" width="100;" alt="ApplebaumIan"/>
-            <br />
-            <sub><b>Josh Rhee</b></sub>
-        </a>
+      <a href="https://github.com/JRheeTU">
+        <img src="https://avatars.githubusercontent.com/u/9451941?v=4" width="100;" alt="ApplebaumIan"/>
+        <br />
+        <sub><b>Josh Rhee</b></sub>
+      </a>
     </td>
     <td align="center">
-        <a href="https://github.com/leighflagg">
-            <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
-            <br />
-            <sub><b>Sophie </b></sub>
-        </a>
-    </td></tr>
+      <a href="https://github.com/leighflagg">
+        <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
+        <br />
+        <sub><b>Sophie Mettille</b></sub>
+      </a>
+    </td>
     <td align="center">
-        <a href="https://github.com/leighflagg">
-            <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
-            <br />
-            <sub><b>Josh </b></sub>
-        </a>
-    </td></tr>
+      <a href="https://github.com/Joshua-Varkey12">
+        <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
+        <br />
+        <sub><b>Josh Varkey</b></sub>
+      </a>
+    </td>
     <td align="center">
-        <a href="https://github.com/leighflagg">
-            <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
-            <br />
-            <sub><b>Omar </b></sub>
-        </a>
-    </td></tr>
+      <a href="https://github.com/omarshakir8">
+        <img src="https://avatars.githubusercontent.com/u/77810293?v=4" width="100;" alt="leighflagg"/>
+        <br />
+        <sub><b>Omar Shakir</b></sub>
+      </a>
+    </td>
+  </tr>
 </table>
 
 [//]: # ( readme: collaborators -end )
