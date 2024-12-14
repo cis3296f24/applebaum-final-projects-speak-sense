@@ -217,8 +217,8 @@ sequenceDiagram
     S->>IN: Returns formatted analysis
     IN->>U: Displays analysis cards (strengths, weaknesses, etc.)
 ```
-### Use Case 4: 
-Data Deletion<br>
+### Use Case 4
+
 This Sequence diagram will go over how the user will go about deleting their personal data files associated with their speech patterns. In short, the user navigates to the page under settings called "Account Data" and selects and confirms their data deletion of their account, which then calls the function "deleetDatabase", which is a function in our database.js file, which deletes the data.
 
 ```mermaid
@@ -243,7 +243,7 @@ sequenceDiagram
 
 ```mermaid
 classDiagram
-    class _app
+       class _app
     _app : +render()
 
     class index
@@ -263,6 +263,21 @@ classDiagram
     index : + handleBadWordDetected()
     index : + SpeechToText()
 
+
+    class miccard {
+        - isMicActive : boolean
+        - isBadWordDetected : boolean
+        + handleMicToggle()
+        + render()
+    }
+
+    class modifybannedwordscard {
+        - BannedWords : String[]
+        + addBannedWord(word : String)
+        + removeBannedWord(word : String)
+        + render()
+    }
+
     class insights
     insights: -useState~string~ response
     insights: -useState~boolean~ loading
@@ -275,7 +290,6 @@ classDiagram
     class profile
     profile: +profilePage() return profilePage
 
-    
     class chat
     chat : -openai
     chat : - app
@@ -306,13 +320,16 @@ classDiagram
     db: +getStats ())
     db: +deleteDataBase ()
 
-    _app <-- index
+
+   _app <-- index
     _app <-- insights
     _app <-- profile
     _app <-- statistics
     insights o-- chat
     db <-- index
     db <-- statistics
+    index --> miccard : passes isMicActive, isBadWordDetected
+    index --> modifybannedwordscard : passes BannedWords
 ```
  
 ## Explaining key files and functions 
