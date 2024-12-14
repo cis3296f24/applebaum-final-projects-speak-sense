@@ -16,9 +16,9 @@ Speech-Analysis, Word Frequency Tracking, Progressive Web App, Speech Pattern An
 ## Project Description
 **SpeakSense** is a progressive web application designed to provide real-time feedback on your speech. Whether you're preparing for a presentation, practicing for an interview, or refining a speech, SpeakSense helps you stay on track by monitoring your speech patterns and providing actionable insights.
 
-<img src="image-3.png" alt="Image1" width="200px">
-<img src="image-4.png" alt="Image2" width="200px">
-<img src="image-7.png" alt="Image2" height="500px">
+<img src="image-3.png" alt="Image1" width="200px"/>
+<img src="image-4.png" alt="Image2" width="200px"/>
+<img src="image-7.png" alt="Image2" height="500px"/>
 
 
 ### Key Features
